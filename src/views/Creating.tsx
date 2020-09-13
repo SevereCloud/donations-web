@@ -238,7 +238,6 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
         </ModalCard>
       </ModalRoot>
     );
-
     return (
       <View id={id} activePanel={activePanel} modal={modal}>
         <Panel id="main">
@@ -467,9 +466,9 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
           <FixedLayout filled vertical="bottom">
             <Div
               style={
-                this.isPanelFormValid('target2')
-                  ? {}
-                  : { opacity: 0.5, pointerEvents: 'none' }
+                donationEnd == 'date' && !this.isPanelFormValid('target2')
+                  ? { opacity: 0.5, pointerEvents: 'none' }
+                  : {}
               }
             >
               <Button
