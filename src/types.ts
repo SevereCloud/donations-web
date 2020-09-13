@@ -58,3 +58,9 @@ interface DonationRegular extends DonationBase {
 }
 
 export type Donation = DonationTarget | DonationRegular;
+
+export interface DateFormat {
+  day: number;
+  month: number;
+  year: number;
+}

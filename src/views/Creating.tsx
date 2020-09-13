@@ -17,8 +17,11 @@ import {
   List,
   SimpleCell,
   Avatar,
+  DatePicker,
+  ModalRoot,
+  ModalCard,
 } from '@vkontakte/vkui';
-import type { Author, Donation } from '../types';
+import type { Author, Donation, DateFormat } from '../types';
 import {
   Icon28TargetOutline,
   Icon28CalendarOutline,
@@ -27,6 +30,7 @@ import {
 } from '@vkontakte/icons';
 import CoverLoader from '../components/CoverLoader/CoverLoader';
 import SnippetDonation from '../components/SnippetDonation/SnippetDonation';
+import { todayDate, dateFormat } from '../lib';
 
 const defaultAuthors: Author[] = [
   {
@@ -66,7 +70,14 @@ const defaultDonationTarget: Donation = {
   author: defaultAuthors[0],
 };
 
+type DonationEnd = 'date' | 'amount';
+
 interface CreatingState {
+  activeModal: string | null;
+
+  date?: DateFormat;
+  donationEnd: DonationEnd;
+
   donation: Donation;
 }
 
@@ -89,11 +100,17 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
 
     // TODO: нужно подгрузить реального пользователя
     this.state = {
+      activeModal: null,
+
+      donationEnd: 'date',
+
       donation: props.donation || defaultDonationRegular,
     };
 
     this.create = this.create.bind(this);
     this.choseAuthor = this.choseAuthor.bind(this);
+    this.choseDate = this.choseDate.bind(this);
+    this.choseDonationEnd = this.choseDonationEnd.bind(this);
   }
 
   choseAuthor(user: Author): void {
@@ -119,13 +136,24 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
     }
   }
 
-  createTarget() {
-    this.setState({ donation: defaultDonationTarget });
-  }
-
   setDonation = (donation: Partial<Donation>): void => {
     const newDonation = Object.assign({}, this.state.donation, donation);
     this.setState({ donation: newDonation });
+  };
+
+  choseDate = () => {
+    this.setState({ activeModal: null });
+  };
+
+  choseDonationEnd = (when: DonationEnd) => {
+    switch (when) {
+      case 'date':
+        this.setState({ donationEnd: when });
+        break;
+      case 'amount':
+        this.setState({ donationEnd: when, date: undefined });
+        break;
+    }
   };
 
   render(): JSX.Element {
@@ -137,9 +165,46 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
       finishText,
       updateDonation,
     } = this.props;
-    const { donation } = this.state;
+    const { activeModal, date, donationEnd, donation } = this.state;
+
+    const modal = (
+      <ModalRoot activeModal={activeModal}>
+        <ModalCard
+          id="date"
+          onClose={() => {
+            this.setState({ date: undefined });
+            this.choseDate();
+          }}
+          header="Выберите дату"
+          actions={[
+            {
+              title: 'Выбрать',
+              mode: 'primary',
+              action: () => {
+                this.choseDate();
+              },
+            },
+          ]}
+        >
+          <div style={{ marginTop: 12 }}>
+            <DatePicker
+              top="Дата окончания"
+              placeholder="Выберите дату"
+              min={todayDate()}
+              max={{ day: 1, month: 1, year: 2037 }}
+              dayPlaceholder="День"
+              monthPlaceholder="Месяц"
+              yearPlaceholder="Год"
+              popupDirection="top"
+              onDateChange={(d) => this.setState({ date: d })}
+            />
+          </div>
+        </ModalCard>
+      </ModalRoot>
+    );
+
     return (
-      <View id={id} activePanel={activePanel}>
+      <View id={id} activePanel={activePanel} modal={modal}>
         <Panel id="main">
           <PanelHeader left={<PanelHeaderBack onClick={() => goBack()} />}>
             Тип сбора
@@ -264,16 +329,38 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
             >
               {donation.author.name}
             </SelectMimicry>
-            {/* TODO: обработать */}
             <FormLayoutGroup top="Сбор завершится">
-              <Radio name="type">Когда соберем сумму</Radio>
-              <Radio style={{ marginTop: 0 }} name="type" defaultChecked>
+              <Radio
+                name="type"
+                value="amount"
+                checked={donationEnd === 'amount'}
+                onChange={(e) =>
+                  e.target.value === 'amount' && this.choseDonationEnd('amount')
+                }
+              >
+                Когда соберем сумму
+              </Radio>
+              <Radio
+                style={{ marginTop: 0 }}
+                name="type"
+                value="date"
+                checked={donationEnd === 'date'}
+                onChange={(e) =>
+                  e.target.value === 'date' && this.choseDonationEnd('date')
+                }
+              >
                 В определённую дату
               </Radio>
             </FormLayoutGroup>
-            {/* TODO: нужен выбор даты из VKUI 4 */}
-            {/* TODO: скрывать если когда соберем сумму */}
-            <SelectMimicry top="Дата окончания" placeholder="Выберите дату" />
+            {donationEnd === 'date' && (
+              <SelectMimicry
+                top="Дата окончания"
+                placeholder="Выберите дату"
+                onClick={() => this.setState({ activeModal: 'date' })}
+              >
+                {date && dateFormat(date)}
+              </SelectMimicry>
+            )}
           </FormLayout>
           <Div>
             <Button size="l" stretched onClick={() => setPanel('posting')}>
