@@ -45,7 +45,7 @@ export class Newsfeed extends React.Component<NewsfeedProps, NewsfeedState> {
                 donation.need,
               )} ₽`}
               value={(8750 * 100) / donation.need}
-              action={<Button mode="outline">Помочь</Button>}
+              action={<Button mode="outline" onClick={() => setView('viewing')}>Помочь</Button>}
               background={
                 <div
                   style={{
@@ -59,11 +59,6 @@ export class Newsfeed extends React.Component<NewsfeedProps, NewsfeedState> {
               }
             />
           )}
-          <Div>
-            <Button size="l" stretched onClick={() => setView('viewing')}>
-              Далее
-            </Button>
-          </Div>
         </Panel>
       </View>
     );
