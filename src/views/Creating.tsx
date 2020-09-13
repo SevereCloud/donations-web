@@ -208,13 +208,20 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
               onChange={(e) => this.setDonation({ title: e.target.value })}
             />
             <Input
-              type="number"
               pattern="[0-9]*"
               top="Сумма, ₽"
               placeholder="Сколько нужно собрать?"
-              value={donation.need || undefined}
-              onChange={(e) =>
-                this.setDonation({ need: parseFloat(e.target.value) })
+              value={donation.need || ''}
+              onChange={
+                (e) => {
+                  const donationNeed = parseFloat(e.target.value);
+                  // prevent passing NaN or negative numbers as donation.need value
+                  if (!isNaN(donationNeed) && donationNeed >= 0) {
+                    this.setDonation({ need: donationNeed });
+                  } else {
+                    this.setDonation({ need: 0 });
+                  }
+                }
               }
             />
             <Input
