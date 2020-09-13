@@ -8,8 +8,9 @@ import type {
 import type { VKMiniAppAPI } from '@vkontakte/vk-mini-apps-api';
 
 import './components/SnippetDonation/SnippetDonation.css';
-
 import './components/CoverLoader/CoverLoader.css';
+import './components/ViewState/ViewState.css';
+
 import type { Donation } from './types';
 import { Viewing } from './views/Viewing';
 import { Main } from './views/Main';

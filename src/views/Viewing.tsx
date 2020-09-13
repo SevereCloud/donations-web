@@ -9,6 +9,7 @@ import {
   Div,
 } from '@vkontakte/vkui';
 import type { Donation } from '../types';
+import ViewState from '../components/ViewState/ViewState';
 
 export interface ViewingProps {
   id: string;
@@ -26,7 +27,7 @@ export class Viewing extends React.Component<ViewingProps> {
 
   render(): JSX.Element {
     const { id, donation } = this.props;
-    const {} = this.state;
+    const { } = this.state;
     return (
       <View id={id} activePanel="main">
         <Panel id="main">
@@ -50,7 +51,7 @@ export class Viewing extends React.Component<ViewingProps> {
                 <Text weight="regular">Сбор закончится через TODO: дней</Text>
               </Div>
               <Separator />
-              <div>TODO: State</div>
+              <ViewState />
               <Separator />
               <Div>
                 <Text weight="regular">{donation.description}</Text>
