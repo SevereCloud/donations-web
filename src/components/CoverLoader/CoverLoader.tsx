@@ -110,6 +110,7 @@ class CoverLoader extends Component<CoverLoaderProps, CoverLoaderState> {
           {...restProps}
           className="CoverLoader__input"
           type="file"
+          accept="image/*"
           ref={getRef}
           onChange={this.change}
         />
