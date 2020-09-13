@@ -209,6 +209,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
             />
             <Input
               type="number"
+              pattern="[0-9]*"
               top="Сумма, ₽"
               placeholder="Сколько нужно собрать?"
               value={donation.need || undefined}
@@ -259,7 +260,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
             {/* TODO: обработать */}
             <FormLayoutGroup top="Сбор завершится">
               <Radio name="type">Когда соберем сумму</Radio>
-              <Radio style={{marginTop: 0}} name="type" defaultChecked>
+              <Radio style={{ marginTop: 0 }} name="type" defaultChecked>
                 В определённую дату
               </Radio>
             </FormLayoutGroup>
@@ -307,6 +308,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
             <Input
               top="Сумма в месяц, ₽"
               type="number"
+              pattern="[0-9]*"
               placeholder="Сколько нужно в месяц?"
               value={donation.need || undefined}
               onChange={(e) =>
