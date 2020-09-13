@@ -1,0 +1,18 @@
+{
+  "extends": "@snowpack/app-scripts-react",
+  "scripts": {},
+  "devOptions": {
+    "port": 10888
+  },
+  "buildOptions": {
+    "baseUrl": "."
+  },
+  "plugins": [
+    [
+      "@snowpack/plugin-webpack",
+      {
+        "sourceMap": false
+      }
+    ]
+  ]
+}
