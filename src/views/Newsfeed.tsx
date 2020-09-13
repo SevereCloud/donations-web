@@ -47,7 +47,7 @@ export class Newsfeed extends React.Component<NewsfeedProps, NewsfeedState> {
           })
         )
       },
-      75
+      50
     )
     this.setAnimationInterval(animationInterval)
   }
