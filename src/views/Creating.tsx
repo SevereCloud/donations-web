@@ -161,8 +161,8 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
     }
   };
 
-  isPanelFormValid = (panel: 'target' | 'regular'): boolean => {
-    const { donation } = this.state;
+  isPanelFormValid = (panel: 'target' | 'target2' | 'regular'): boolean => {
+    const { donation, date } = this.state;
 
     switch (panel) {
       case 'target':
@@ -172,6 +172,8 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
           donation.target,
           donation.description,
         ].every(e => e);
+      case 'target2':
+        return Boolean(date);
       case 'regular':
         return [
           donation.title,
@@ -444,6 +446,16 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
             {donationEnd === 'date' && (
               <SelectMimicry
                 top="Дата окончания"
+                bottom={
+                  highlightErrors && !date
+                    ? 'Пожалуйста выберите дату'
+                    : ''
+                }
+                status={
+                  highlightErrors && !date
+                    ? 'error'
+                    : 'default'
+                }
                 placeholder="Выберите дату"
                 onClick={() => this.setState({ activeModal: 'date' })}
               >
@@ -453,8 +465,26 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
           </FormLayout>
           <div style={{ height: 68 }} />
           <FixedLayout filled vertical="bottom">
-            <Div>
-              <Button size="l" stretched onClick={() => setPanel('posting')}>
+            <Div
+              style={
+                this.isPanelFormValid('target2')
+                  ? {}
+                  : { opacity: 0.5, pointerEvents: 'none' }
+              }
+            >
+              <Button
+                stretched
+                size="l"
+                onClick={() => {
+                  const isValid = this.isPanelFormValid('target2');
+                  if (isValid) {
+                    setPanel('posting');
+                  } else {
+                    this.setState({ highlightErrors: true });
+                  }
+                }}
+                onBlur={() => this.setState({ highlightErrors: false })}
+              >
                 Создать сбор
               </Button>
             </Div>
