@@ -20,9 +20,9 @@ import { Icon24Cancel, Icon24DismissOverlay } from '@vkontakte/icons';
 
 export interface CoverLoaderProps
   extends InputHTMLAttributes<HTMLInputElement>,
-  HasRef<HTMLInputElement>,
-  HasRootRef<HTMLElement>,
-  HasPlatform {
+    HasRef<HTMLInputElement>,
+    HasRootRef<HTMLElement>,
+    HasPlatform {
   /**
    * Срабатывает при клике на иконку крестика при `asideMode="dismiss"`.
    */
@@ -36,6 +36,7 @@ export interface CoverLoaderProps
   image?: string;
   error?: boolean;
   errorText?: string;
+  width?: number;
 }
 
 export interface CoverLoaderState {
@@ -92,6 +93,7 @@ class CoverLoader extends Component<CoverLoaderProps, CoverLoaderState> {
       onLoadImage,
       error,
       errorText,
+      width,
       ...restProps
     } = this.props;
     const { value } = this.state;
@@ -105,10 +107,11 @@ class CoverLoader extends Component<CoverLoaderProps, CoverLoaderState> {
             getClassName('CoverLoader', platform),
             {
               'CoverLoader--load': !!value,
+              'CoverLoader--square': !!width && width < 160,
+              CoverLoader__error: error,
             },
-            error ? 'CoverLoader__error' : '',
           )}
-          style={{ ...style, backgroundImage: `url(${value})` }}
+          style={{ ...style, backgroundImage: `url(${value})`, width: width }}
           getRootRef={getRootRef}
           Component="label"
         >
@@ -137,7 +140,9 @@ class CoverLoader extends Component<CoverLoaderProps, CoverLoaderState> {
           )}
         </Tappable>
         {error && (
-          <Text weight="regular" className="CoverLoader__error_text">{errorText}</Text>
+          <Text weight="regular" className="CoverLoader__error_text">
+            {errorText}
+          </Text>
         )}
       </>
     );
