@@ -1531,10 +1531,10 @@
     websocket "^1.0.31"
     ws "^7.2.3"
 
-"@vkontakte/vkui@^3.12.0":
-  version "3.12.5"
-  resolved "https://registry.yarnpkg.com/@vkontakte/vkui/-/vkui-3.12.5.tgz#fdb4472dd383ec7a3bc7c4250882cc2f61089efb"
-  integrity sha512-Us6gdMF3O9C5n0URGe479hL4vEOp6wiap1+2JTaQp95wWTXHCAj+u6SWLk5lwZJatmkb0s0YKZMyLWLmAGE0vw==
+"@vkontakte/vkui@4.0.0-beta.27":
+  version "4.0.0-beta.27"
+  resolved "https://registry.yarnpkg.com/@vkontakte/vkui/-/vkui-4.0.0-beta.27.tgz#e379f34cf782d7a663cb09658b313a09ccad1c0f"
+  integrity sha512-wgxr7YIYl/YHW7VCenwcYQ2jRCYhm0DdeOjVP5yh7KO0mZMssVb49iK1Bnl5BOCsgEOfrTHLOu1siRLb7l1GdQ==
 
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"

@@ -239,7 +239,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
             </SelectMimicry>
           </FormLayout>
           <Div>
-            <Button size="xl" onClick={() => setPanel('target2')}>
+            <Button size="l" stretched onClick={() => setPanel('target2')}>
               Далее
             </Button>
           </Div>
@@ -259,7 +259,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
             {/* TODO: обработать */}
             <FormLayoutGroup top="Сбор завершится">
               <Radio name="type">Когда соберем сумму</Radio>
-              <Radio name="type" defaultChecked>
+              <Radio style={{marginTop: 0}} name="type" defaultChecked>
                 В определённую дату
               </Radio>
             </FormLayoutGroup>
@@ -268,7 +268,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
             <SelectMimicry top="Дата окончания" placeholder="Выберите дату" />
           </FormLayout>
           <Div>
-            <Button size="xl" onClick={() => setPanel('posting')}>
+            <Button size="l" stretched onClick={() => setPanel('posting')}>
               Создать сбор
             </Button>
           </Div>
@@ -343,7 +343,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
             </SelectMimicry>
           </FormLayout>
           <Div>
-            <Button size="xl" onClick={() => setPanel('posting')}>
+            <Button size="l" stretched onClick={() => setPanel('posting')}>
               Создать сбор
             </Button>
           </Div>
@@ -369,7 +369,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
           <PanelHeader separator>VK Pay</PanelHeader>
           <Placeholder
             action={
-              <Button size="l" onClick={() => goBack()}>
+              <Button size="l" stretched onClick={() => goBack()}>
                 Назад
               </Button>
             }
@@ -407,7 +407,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
             }
           />
           <Div>
-            <Button size="xl" onClick={() => updateDonation(donation)}>
+            <Button size="l" stretched onClick={() => updateDonation(donation)}>
               {finishText || 'Опубликовать'}
             </Button>
           </Div>

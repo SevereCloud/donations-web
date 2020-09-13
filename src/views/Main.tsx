@@ -26,7 +26,7 @@ export class Main extends React.Component<MainProps> {
           {/* TODO: список сборов */}
           <Placeholder
             action={
-              <Button size="l" onClick={() => setView('creating')}>
+              <Button size="m" onClick={() => setView('creating')}>
                 Создать сбор
               </Button>
             }
