@@ -80,6 +80,8 @@ interface CreatingState {
   donationEnd: DonationEnd;
 
   donation: Donation;
+
+  highlightErrors: boolean;
 }
 
 export interface CreatingProps {
@@ -106,6 +108,8 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
       donationEnd: 'date',
 
       donation: props.donation || defaultDonationRegular,
+
+      highlightErrors: false,
     };
 
     this.create = this.create.bind(this);
@@ -157,6 +161,22 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
     }
   };
 
+  isPanelFormValid = (panel: string): boolean => {
+    const { donation } = this.state;
+
+    switch (panel) {
+      case 'target':
+        return [
+          donation.title,
+          donation.need,
+          donation.target,
+          donation.description,
+        ].every(e => e);
+      default:
+        return true;
+    }
+  };
+
   render(): JSX.Element {
     const {
       id,
@@ -166,7 +186,13 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
       finishText,
       updateDonation,
     } = this.props;
-    const { activeModal, date, donationEnd, donation } = this.state;
+    const {
+      activeModal,
+      date,
+      donationEnd,
+      donation,
+      highlightErrors,
+    } = this.state;
 
     const modal = (
       <ModalRoot activeModal={activeModal}>
@@ -269,6 +295,16 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
           <FormLayout>
             <Input
               top="Название сбора"
+              bottom={
+                highlightErrors && !donation.title
+                  ? 'Пожалуйста введите название сбора'
+                  : ''
+              }
+              status={
+                highlightErrors && !donation.title
+                  ? 'error'
+                  : 'default'
+              }
               placeholder="Название сбора"
               value={donation.title}
               onChange={(e) => this.setDonation({ title: e.target.value })}
@@ -276,6 +312,16 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
             <Input
               pattern="[0-9]*"
               top="Сумма, ₽"
+              bottom={
+                highlightErrors && !donation.need
+                  ? 'Пожалуйста введите сумму\n(должна быть больше нуля)'
+                  : ''
+              }
+              status={
+                highlightErrors && !donation.need
+                  ? 'error'
+                  : 'default'
+              }
               placeholder="Сколько нужно собрать?"
               value={donation.need || ''}
               onChange={
@@ -292,12 +338,32 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
             />
             <Input
               top="Цель"
+              bottom={
+                highlightErrors && !donation.target
+                  ? 'Пожалуйста введите цель'
+                  : ''
+              }
+              status={
+                highlightErrors && !donation.target
+                  ? 'error'
+                  : 'default'
+              }
               placeholder="Например, лечение человека"
               value={donation.target}
               onChange={(e) => this.setDonation({ target: e.target.value })}
             />
             <Textarea
               top="Описание"
+              bottom={
+                highlightErrors && !donation.description
+                  ? 'Пожалуйста введите описание'
+                  : ''
+              }
+              status={
+                highlightErrors && !donation.description
+                  ? 'error'
+                  : 'default'
+              }
               placeholder="На что пойдут деньги и как они помогут?"
               value={donation.description}
               onChange={(e) =>
@@ -315,7 +381,19 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
           <div style={{ height: 68 }} />
           <FixedLayout filled vertical="bottom">
             <Div>
-              <Button size="l" stretched onClick={() => setPanel('target2')}>
+              <Button
+                stretched
+                size="l"
+                onClick={() => {
+                  const isValid = this.isPanelFormValid('target');
+                  if (isValid) {
+                    setPanel('target2');
+                  } else {
+                    this.setState({ highlightErrors: true });
+                  }
+                }}
+                onBlur={() => this.setState({ highlightErrors: false })}
+              >
                 Далее
               </Button>
             </Div>
