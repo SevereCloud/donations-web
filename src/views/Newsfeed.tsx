@@ -60,7 +60,7 @@ export class Newsfeed extends React.Component<NewsfeedProps, NewsfeedState> {
             />
           )}
           <Div>
-            <Button size="l" stretched   onClick={() => setView('viewing')}>
+            <Button size="l" stretched onClick={() => setView('viewing')}>
               Далее
             </Button>
           </Div>
