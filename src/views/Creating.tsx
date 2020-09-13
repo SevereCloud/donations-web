@@ -20,6 +20,7 @@ import {
   DatePicker,
   ModalRoot,
   ModalCard,
+  FixedLayout,
 } from '@vkontakte/vkui';
 import type { Author, Donation, DateFormat } from '../types';
 import {
@@ -304,11 +305,14 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
               {donation.cashAccount.name}
             </SelectMimicry>
           </FormLayout>
-          <Div>
-            <Button size="l" stretched onClick={() => setPanel('target2')}>
-              Далее
-            </Button>
-          </Div>
+          <div style={{ height: 68 }} />
+          <FixedLayout filled vertical="bottom">
+            <Div>
+              <Button size="l" stretched onClick={() => setPanel('target2')}>
+                Далее
+              </Button>
+            </Div>
+          </FixedLayout>
         </Panel>
         <Panel id="target2">
           <PanelHeader left={<PanelHeaderBack onClick={() => goBack()} />}>
@@ -355,11 +359,14 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
               </SelectMimicry>
             )}
           </FormLayout>
-          <Div>
-            <Button size="l" stretched onClick={() => setPanel('posting')}>
-              Создать сбор
-            </Button>
-          </Div>
+          <div style={{ height: 68 }} />
+          <FixedLayout filled vertical="bottom">
+            <Div>
+              <Button size="l" stretched onClick={() => setPanel('posting')}>
+                Создать сбор
+              </Button>
+            </Div>
+          </FixedLayout>
         </Panel>
         <Panel id="regular">
           <PanelHeader
@@ -431,11 +438,14 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
               {donation.author.name}
             </SelectMimicry>
           </FormLayout>
-          <Div>
-            <Button size="l" stretched onClick={() => setPanel('posting')}>
-              Создать сбор
-            </Button>
-          </Div>
+          <div style={{ height: 68 }} />
+          <FixedLayout filled vertical="bottom">
+            <Div>
+              <Button size="l" stretched onClick={() => setPanel('posting')}>
+                Создать сбор
+              </Button>
+            </Div>
+          </FixedLayout>
         </Panel>
         <Panel id="author">
           <PanelHeader left={<PanelHeaderBack onClick={() => goBack()} />}>
@@ -495,11 +505,18 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
               />
             }
           />
-          <Div>
-            <Button size="l" stretched onClick={() => updateDonation(donation)}>
-              {finishText || 'Опубликовать'}
-            </Button>
-          </Div>
+          <div style={{ height: 68 }} />
+          <FixedLayout filled vertical="bottom">
+            <Div>
+              <Button
+                size="l"
+                stretched
+                onClick={() => updateDonation(donation)}
+              >
+                {finishText || 'Опубликовать'}
+              </Button>
+            </Div>
+          </FixedLayout>
         </Panel>
       </View>
     );
