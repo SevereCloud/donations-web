@@ -161,11 +161,18 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
     }
   };
 
-  isPanelFormValid = (panel: string): boolean => {
+  isPanelFormValid = (panel: 'target' | 'regular'): boolean => {
     const { donation } = this.state;
 
     switch (panel) {
       case 'target':
+        return [
+          donation.title,
+          donation.need,
+          donation.target,
+          donation.description,
+        ].every(e => e);
+      case 'regular':
         return [
           donation.title,
           donation.need,
@@ -480,12 +487,32 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
           <FormLayout>
             <Input
               top="Название сбора"
+              bottom={
+                highlightErrors && !donation.title
+                  ? 'Пожалуйста введите название сбора'
+                  : ''
+              }
+              status={
+                highlightErrors && !donation.title
+                  ? 'error'
+                  : 'default'
+              }
               placeholder="Название сбора"
               value={donation.title}
               onChange={(e) => this.setDonation({ title: e.target.value })}
             />
             <Input
               top="Сумма в месяц, ₽"
+              bottom={
+                highlightErrors && !donation.need
+                  ? 'Пожалуйста введите сумму\n(должна быть больше нуля)'
+                  : ''
+              }
+              status={
+                highlightErrors && !donation.need
+                  ? 'error'
+                  : 'default'
+              }
               pattern="[0-9]*"
               placeholder="Сколько нужно в месяц?"
               value={donation.need || ''}
@@ -503,12 +530,32 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
             />
             <Input
               top="Цель"
+              bottom={
+                highlightErrors && !donation.target
+                  ? 'Пожалуйста введите цель сбора'
+                  : ''
+              }
+              status={
+                highlightErrors && !donation.target
+                  ? 'error'
+                  : 'default'
+              }
               placeholder="Например, поддержка приюта"
               value={donation.target}
               onChange={(e) => this.setDonation({ target: e.target.value })}
             />
             <Textarea
               top="Описание"
+              bottom={
+                highlightErrors && !donation.description
+                  ? 'Пожалуйста введите описание сбора'
+                  : ''
+              }
+              status={
+                highlightErrors && !donation.description
+                  ? 'error'
+                  : 'default'
+              }
               placeholder="На что пойдут деньги и как они помогут?"
               value={donation.description}
               onChange={(e) =>
@@ -533,7 +580,19 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
           <div style={{ height: 68 }} />
           <FixedLayout filled vertical="bottom">
             <Div>
-              <Button size="l" stretched onClick={() => setPanel('posting')}>
+              <Button
+                stretched
+                size="l"
+                onClick={() => {
+                  const isValid = this.isPanelFormValid('regular');
+                  if (isValid) {
+                    setPanel('posting');
+                  } else {
+                    this.setState({ highlightErrors: true });
+                  }
+                }}
+                onBlur={() => this.setState({ highlightErrors: false })}
+              >
                 Создать сбор
               </Button>
             </Div>
