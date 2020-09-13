@@ -11,7 +11,10 @@ import type { Donation } from '../types';
 import SnippetDonation from '../components/SnippetDonation/SnippetDonation';
 import { moneyFormat } from '../lib';
 
-interface NewsfeedState {}
+interface NewsfeedState {
+  donationNeedProgress: number;
+  animationInterval: NodeJS.Timeout | null;
+}
 
 export interface NewsfeedProps {
   id: string;
@@ -25,12 +28,49 @@ export class Newsfeed extends React.Component<NewsfeedProps, NewsfeedState> {
   constructor(props: NewsfeedProps) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      donationNeedProgress: 0,
+      animationInterval: null,
+    };
   }
+
+  componentDidMount() {
+    const { donation } = this.props;
+    const donationNeed = donation?.need || 0;
+    const animationInterval = setInterval(
+      () => {
+        this.setState(
+          (prevState: NewsfeedState) => ({
+            donationNeedProgress: Math.floor(
+              prevState.donationNeedProgress + donationNeed * 0.02
+            )
+          })
+        )
+      },
+      75
+    )
+    this.setAnimationInterval(animationInterval)
+  }
+
+  componentDidUpdate() {
+    const { donation } = this.props;
+    const donationNeed = donation?.need || 0;
+    const {
+      donationNeedProgress,
+      animationInterval,
+    } = this.state;
+    if (donationNeedProgress >= donationNeed && animationInterval) {
+      clearInterval(animationInterval);
+    }
+  }
+
+  setAnimationInterval = (interval: NodeJS.Timeout) => this.setState({
+    animationInterval: interval,
+  });
 
   render(): JSX.Element {
     const { id, setView, goBack, donation } = this.props;
-    const {} = this.state;
+    const { donationNeedProgress } = this.state;
     return (
       <View id={id} activePanel="main">
         <Panel id="main">
@@ -41,10 +81,10 @@ export class Newsfeed extends React.Component<NewsfeedProps, NewsfeedState> {
             <SnippetDonation
               title={donation.title}
               description={`${donation.author.name}· Закончится через 5 дней`}
-              progress={`Собрано ${moneyFormat(8750)} ₽ из ${moneyFormat(
+              progress={`Собрано ${moneyFormat(donationNeedProgress)} ₽ из ${moneyFormat(
                 donation.need,
               )} ₽`}
-              value={(8750 * 100) / donation.need}
+              value={(donationNeedProgress * 100) / donation.need}
               action={<Button mode="outline">Помочь</Button>}
               background={
                 <div
