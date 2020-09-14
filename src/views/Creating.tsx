@@ -162,7 +162,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
   };
 
   isPanelFormValid = (panel: 'target' | 'target2' | 'regular'): boolean => {
-    const { donation, date } = this.state;
+    const { donation, date, donationEnd } = this.state;
 
     switch (panel) {
       case 'target':
@@ -174,7 +174,11 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
           donation.description,
         ].every(e => e);
       case 'target2':
-        return Boolean(date);
+        if (donationEnd == 'date') {
+          return Boolean(date);
+        } else {
+          return true;
+        }
       case 'regular':
         return [
           donation.image,
