@@ -555,7 +555,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
                 }}
                 onBlur={() => this.setState({ highlightErrors: false })}
               >
-                Создать сбор
+                Далее
               </Button>
             </Div>
           </FixedLayout>
@@ -679,7 +679,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
                 }}
                 onBlur={() => this.setState({ highlightErrors: false })}
               >
-                Создать сбор
+                Далее
               </Button>
             </Div>
           </FixedLayout>
