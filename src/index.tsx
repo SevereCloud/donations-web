@@ -4,8 +4,14 @@ import { App } from './App';
 import { VKMiniAppAPI } from '@vkontakte/vk-mini-apps-api';
 import bridge from '@vkontakte/vk-bridge';
 
-import './components/Post/Post.css';
 import './components/CardDivider/CardDivider.css';
+import './components/CoverLoader/CoverLoader.css';
+import './components/Post/Post.css';
+import './components/PostBar/PostBar.css';
+import './components/SnippetDonation/SnippetDonation.css';
+import './components/ViewState/ViewState.css';
+import './views/Creating.css';
+import '@vkontakte/vkui/dist/vkui.css';
 
 const isMobileApps = () => {
   const url = new URL(window.location.href);

@@ -1,16 +1,10 @@
 import React from 'react';
 import { Root } from '@vkontakte/vkui';
-import '@vkontakte/vkui/dist/vkui.css';
 import type {
   AppearanceSchemeType,
   UpdateConfigData,
 } from '@vkontakte/vk-bridge';
 import type { VKMiniAppAPI } from '@vkontakte/vk-mini-apps-api';
-
-import './views/Creating.css';
-import './components/SnippetDonation/SnippetDonation.css';
-import './components/CoverLoader/CoverLoader.css';
-import './components/ViewState/ViewState.css';
 
 import type { Author, Donation } from './types';
 import { Viewing } from './views/Viewing';

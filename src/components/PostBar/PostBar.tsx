@@ -1,10 +1,8 @@
 import React, { FC, HTMLAttributes } from 'react';
 import {
-  SimpleCell,
   usePlatform,
   getClassName,
   classNames,
-  Avatar,
   Tappable,
 } from '@vkontakte/vkui';
 import type { HasRootRef } from '@vkontakte/vkui/dist/types';
@@ -15,24 +13,18 @@ import {
   Icon24ShareOutline,
   Icon24View,
 } from '@vkontakte/icons';
-import PostBar from '../PostBar/PostBar';
 
-export interface PostProps
+export interface PostBarProps
   extends HTMLAttributes<HTMLElement>,
     HasRootRef<HTMLElement> {
-  author: Author;
-  date: string;
-
   likes: number;
   comments: number;
   reposts: number;
   views: string;
 }
 
-const Post: FC<PostProps> = ({
+const PostBar: FC<PostBarProps> = ({
   className,
-  author,
-  date,
   likes,
   comments,
   reposts,
@@ -45,26 +37,26 @@ const Post: FC<PostProps> = ({
   return (
     <div
       {...restProps}
-      className={classNames(className, getClassName('Post', platform))}
+      className={classNames(className, getClassName('PostBar', platform))}
     >
-      <div className="Post__header">
-        <SimpleCell
-          disabled
-          description={date}
-          before={<Avatar size={48} src={author.photo_100} />}
-        >
-          {author.name}
-        </SimpleCell>
+      <Tappable className="PostBar__button">
+        <Icon24LikeOutline />
+        {likes || ''}
+      </Tappable>
+      <Tappable className="PostBar__button">
+        <Icon24CommentOutline />
+        {comments || ''}
+      </Tappable>
+      <Tappable className="PostBar__button">
+        <Icon24ShareOutline />
+        {reposts || ''}
+      </Tappable>
+      <div className="PostBar__views">
+        <Icon24View width={20} height={20} />
+        {views}
       </div>
-      <div className="Post__content">{children}</div>
-      <PostBar
-        likes={likes}
-        comments={comments}
-        reposts={reposts}
-        views={views}
-      />
     </div>
   );
 };
 
-export default Post;
+export default PostBar;
