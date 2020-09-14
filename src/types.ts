@@ -33,6 +33,24 @@ export interface Author {
   photo_100: string;
 }
 
+type AchievementType = '';
+
+interface AchievementBase {
+  name: string;
+  image: string;
+}
+
+interface AchievementRepost extends AchievementBase {
+  type: 'repost';
+}
+
+interface AchievementAmount extends AchievementBase {
+  type: 'amount';
+  min: number;
+}
+
+export type Achievement = AchievementRepost | AchievementAmount;
+
 interface DonationBase {
   title: string;
   image: string;
@@ -41,6 +59,7 @@ interface DonationBase {
   description: string;
   cashAccount: CashAccount;
   author: Author;
+  achievements: Achievement[];
 }
 
 interface DonationTarget extends DonationBase {

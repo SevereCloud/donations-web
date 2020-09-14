@@ -22,17 +22,20 @@ import {
   ModalCard,
   FixedLayout,
 } from '@vkontakte/vkui';
-import type { Author, Donation, DateFormat } from '../types';
+import type { Author, Donation, DateFormat, Achievement } from '../types';
 import {
   Icon28TargetOutline,
   Icon28CalendarOutline,
   Icon28PictureOutline,
   Icon24Done,
+  Icon28GiftOutline,
 } from '@vkontakte/icons';
 import CoverLoader from '../components/CoverLoader/CoverLoader';
 import SnippetDonation from '../components/SnippetDonation/SnippetDonation';
-import { todayDate, dateFormat } from '../lib';
 import type { VKMiniAppAPI } from '@vkontakte/vk-mini-apps-api';
+import { todayDate, dateFormat, achievementSort } from '../lib';
+import { Achievements } from './achievements/Achievements';
+import { AchievementEdit } from './achievements/AchievementEdit';
 
 const defaultAuthors: Author[] = [
   {
@@ -59,6 +62,7 @@ const defaultDonationRegular: Donation = {
   cashAccount: { name: 'Счёт VK Pay · 1234' },
   author: defaultAuthors[0],
   finish: undefined,
+  achievements: [],
 };
 
 const defaultDonationTarget: Donation = {
@@ -70,6 +74,7 @@ const defaultDonationTarget: Donation = {
   description: '',
   cashAccount: { name: 'Счёт VK Pay · 1234' },
   author: defaultAuthors[0],
+  achievements: [],
 };
 
 type DonationEnd = 'date' | 'amount';
@@ -85,6 +90,8 @@ interface CreatingState {
   donation: Donation;
 
   highlightErrors: boolean;
+  achievementEditIndex: number;
+  achievementEdit?: Achievement;
 }
 
 export interface CreatingProps {
@@ -119,6 +126,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
       donation: props.donation || defaultDonationRegular,
 
       highlightErrors: false,
+      achievementEditIndex: 0,
     };
 
     this.create = this.create.bind(this);
@@ -215,7 +223,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
           donation.need,
           donation.target,
           donation.description,
-        ].every(e => e);
+        ].every((e) => e);
       case 'target2':
         if (donationEnd == 'date') {
           return Boolean(date);
@@ -229,7 +237,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
           donation.need,
           donation.target,
           donation.description,
-        ].every(e => e);
+        ].every((e) => e);
       default:
         return true;
     }
@@ -240,6 +248,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
       id,
       activePanel,
       setPanel,
+      setView,
       goBack,
       finishText,
       updateDonation,
@@ -250,6 +259,8 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
       donationEnd,
       donation,
       highlightErrors,
+      achievementEdit,
+      achievementEditIndex,
     } = this.state;
 
     const modal = (
@@ -364,11 +375,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
                   ? 'Пожалуйста, введите название сбора'
                   : ''
               }
-              status={
-                highlightErrors && !donation.title
-                  ? 'error'
-                  : 'default'
-              }
+              status={highlightErrors && !donation.title ? 'error' : 'default'}
               placeholder="Название сбора"
               value={donation.title}
               onChange={(e) => this.setDonation({ title: e.target.value })}
@@ -381,11 +388,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
                   ? 'Пожалуйста, введите сумму\n(должна быть больше нуля)'
                   : ''
               }
-              status={
-                highlightErrors && !donation.need
-                  ? 'error'
-                  : 'default'
-              }
+              status={highlightErrors && !donation.need ? 'error' : 'default'}
               type="number"
               inputMode="numeric"
               placeholder="Сколько нужно собрать?"
@@ -407,11 +410,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
                   ? 'Пожалуйста, введите цель'
                   : ''
               }
-              status={
-                highlightErrors && !donation.target
-                  ? 'error'
-                  : 'default'
-              }
+              status={highlightErrors && !donation.target ? 'error' : 'default'}
               placeholder="Например, лечение человека"
               value={donation.target}
               onChange={(e) => this.setDonation({ target: e.target.value })}
@@ -424,9 +423,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
                   : ''
               }
               status={
-                highlightErrors && !donation.description
-                  ? 'error'
-                  : 'default'
+                highlightErrors && !donation.description ? 'error' : 'default'
               }
               placeholder="На что пойдут деньги и как они помогут?"
               value={donation.description}
@@ -502,15 +499,9 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
               <SelectMimicry
                 top="Дата окончания"
                 bottom={
-                  highlightErrors && !date
-                    ? 'Пожалуйста, выберите дату'
-                    : ''
+                  highlightErrors && !date ? 'Пожалуйста, выберите дату' : ''
                 }
-                status={
-                  highlightErrors && !date
-                    ? 'error'
-                    : 'default'
-                }
+                status={highlightErrors && !date ? 'error' : 'default'}
                 placeholder="Выберите дату"
                 onClick={() => this.setState({ activeModal: 'date' })}
               >
@@ -533,7 +524,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
                 onClick={() => {
                   const isValid = this.isPanelFormValid('target2');
                   if (isValid) {
-                    setPanel('posting');
+                    setPanel('achievements');
                   } else {
                     this.setState({ highlightErrors: true });
                   }
@@ -579,11 +570,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
                   ? 'Пожалуйста, введите название сбора'
                   : ''
               }
-              status={
-                highlightErrors && !donation.title
-                  ? 'error'
-                  : 'default'
-              }
+              status={highlightErrors && !donation.title ? 'error' : 'default'}
               placeholder="Название сбора"
               value={donation.title}
               onChange={(e) => this.setDonation({ title: e.target.value })}
@@ -595,27 +582,21 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
                   ? 'Пожалуйста, введите сумму\n(должна быть больше нуля)'
                   : ''
               }
-              status={
-                highlightErrors && !donation.need
-                  ? 'error'
-                  : 'default'
-              }
+              status={highlightErrors && !donation.need ? 'error' : 'default'}
               pattern="[0-9]*"
               inputMode="numeric"
               type="number"
               placeholder="Сколько нужно в месяц?"
               value={donation.need || ''}
-              onChange={
-                (e) => {
-                  const donationNeed = parseFloat(e.target.value);
-                  // prevent passing NaN or negative numbers as donation.need value
-                  if (!isNaN(donationNeed) && donationNeed >= 0) {
-                    this.setDonation({ need: donationNeed });
-                  } else {
-                    this.setDonation({ need: 0 });
-                  }
+              onChange={(e) => {
+                const donationNeed = parseFloat(e.target.value);
+                // prevent passing NaN or negative numbers as donation.need value
+                if (!isNaN(donationNeed) && donationNeed >= 0) {
+                  this.setDonation({ need: donationNeed });
+                } else {
+                  this.setDonation({ need: 0 });
                 }
-              }
+              }}
             />
             <Input
               top="Цель"
@@ -624,11 +605,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
                   ? 'Пожалуйста, введите цель сбора'
                   : ''
               }
-              status={
-                highlightErrors && !donation.target
-                  ? 'error'
-                  : 'default'
-              }
+              status={highlightErrors && !donation.target ? 'error' : 'default'}
               placeholder="Например, поддержка приюта"
               value={donation.target}
               onChange={(e) => this.setDonation({ target: e.target.value })}
@@ -641,9 +618,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
                   : ''
               }
               status={
-                highlightErrors && !donation.description
-                  ? 'error'
-                  : 'default'
+                highlightErrors && !donation.description ? 'error' : 'default'
               }
               placeholder="На что пойдут деньги и как они помогут?"
               value={donation.description}
@@ -675,7 +650,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
                 onClick={() => {
                   const isValid = this.isPanelFormValid('regular');
                   if (isValid) {
-                    setPanel('posting');
+                    setPanel('achievements');
                   } else {
                     this.setState({ highlightErrors: true });
                   }
@@ -757,6 +732,53 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
               </Button>
             </Div>
           </FixedLayout>
+        </Panel>
+
+        <Panel id="achievements">
+          <Achievements
+            setPanel={setPanel}
+            goBack={goBack}
+            achievements={donation.achievements}
+            choseNew={() => setPanel('achievement-new')}
+            choseEdit={(item) => {
+              this.setState({
+                achievementEditIndex: item,
+                achievementEdit: donation.achievements[item],
+              });
+              setPanel('achievement-edit');
+            }}
+            remove={(item) => {
+              const newAchievements = [...donation.achievements];
+              newAchievements.splice(item, 1);
+              this.setDonation({ achievements: newAchievements });
+            }}
+          />
+        </Panel>
+        <Panel id="achievement-new">
+          <AchievementEdit
+            setPanel={setPanel}
+            goBack={goBack}
+            update={(a) => {
+              const newAchievements = [...donation.achievements, a];
+              newAchievements.sort(achievementSort);
+              this.setDonation({ achievements: newAchievements });
+              goBack();
+            }}
+          />
+        </Panel>
+        <Panel id="achievement-edit">
+          <AchievementEdit
+            setPanel={setPanel}
+            goBack={goBack}
+            achievement={achievementEdit}
+            update={(a) => {
+              const newAchievements = [...donation.achievements];
+              newAchievements[achievementEditIndex] = a;
+              newAchievements.sort(achievementSort);
+              this.setDonation({ achievements: newAchievements });
+              goBack();
+            }}
+          />
         </Panel>
       </View>
     );

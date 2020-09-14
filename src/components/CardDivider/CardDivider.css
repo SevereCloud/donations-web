@@ -1,0 +1,12 @@
+.CardDivider {
+    background-color: var(--background_page);
+    width: 100%;
+}
+
+.CardDivider--android {
+    height: 8px;
+}
+
+.CardDivider--ios {
+    height: 8px;
+}
