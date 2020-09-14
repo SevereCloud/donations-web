@@ -241,7 +241,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
               onDateChange={(date) => {
                 // set date only if all parts of date are set
                 if (date.month !== 0 && date.day !== 0 && date.year !== 0) {
-                  this.setState({ date});
+                  this.setState({ date });
                 }
               }}
             />
@@ -303,7 +303,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
           <Div style={{ paddingTop: 4 }}>
             <CoverLoader
               error={highlightErrors && !donation.image}
-              errorText="пожалуйста загрузите обложку"
+              errorText="Пожалуйста загрузите обложку"
               title="Загрузить обложку"
               before={<Icon28PictureOutline />}
               image={donation.image}
@@ -517,6 +517,8 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
           </PanelHeader>
           <Div style={{ paddingTop: 4 }}>
             <CoverLoader
+              error={highlightErrors && !donation.image}
+              errorText="Пожалуйста загрузите обложку"
               title="Загрузить обложку"
               before={<Icon28PictureOutline />}
               image={donation.image}
