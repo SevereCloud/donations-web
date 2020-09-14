@@ -9,7 +9,7 @@ import {
   Div,
 } from '@vkontakte/vkui';
 import type { Donation } from '../types';
-import ViewState from '../components/ViewState/ViewState';
+import ViewState, { StateProgressWithAnimation } from '../components/ViewState/ViewState';
 
 export interface ViewingProps {
   id: string;
@@ -27,7 +27,7 @@ export class Viewing extends React.Component<ViewingProps> {
 
   render(): JSX.Element {
     const { id, donation } = this.props;
-    const {} = this.state;
+    const { } = this.state;
     return (
       <View id={id} activePanel="main">
         <Panel id="main">
@@ -47,16 +47,21 @@ export class Viewing extends React.Component<ViewingProps> {
                 <Title level="1" weight="bold">
                   {donation.title}
                 </Title>
-                <Text weight="medium">Автор {donation.author.name}</Text>
-                <Text weight="regular">Сбор закончится через TODO: дней</Text>
+                <Text weight="medium" style={{ opacity: 0.67 }}>Автор {donation.author.name}</Text>
+                <Text weight="regular" style={{ opacity: 0.33 }}>Сбор закончится через TODO: дней</Text>
               </Div>
               <Separator />
-              <ViewState />
+              <StateProgressWithAnimation
+                label="Нужно собрать до 20 сентября"
+                donationNeed={10000}
+              />
               <Separator />
               <Div>
                 <Text weight="regular">{donation.description}</Text>
               </Div>
               <div>TODO: лайки комменты и тд</div>
+              <Separator />
+              <ViewState />
             </>
           )}
         </Panel>
