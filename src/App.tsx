@@ -26,6 +26,7 @@ interface AppState {
   donation?: Donation;
 
   userInfo?: Author;
+  postText: string;
 }
 
 export interface AppProps {
@@ -42,6 +43,7 @@ export class App extends React.Component<AppProps, AppState> {
       activeView: 'main',
       activePanel: { main: 'main' },
       history: [{ view: 'main', panel: 'main' }],
+      postText: '',
     };
 
     this.setView = this.setView.bind(this);
@@ -118,7 +120,7 @@ export class App extends React.Component<AppProps, AppState> {
 
   render(): JSX.Element {
     const { vkAPI } = this.props;
-    const { activeView, activePanel, donation, userInfo } = this.state;
+    const { activeView, activePanel, donation, userInfo, postText } = this.state;
 
     return (
       <Root activeView={activeView}>
@@ -136,10 +138,12 @@ export class App extends React.Component<AppProps, AppState> {
           goBack={() => this.goBack()}
           updateDonation={(d) => this.updateDonation(d)}
           userInfo={userInfo}
+          // setPostText={(t)=>this.setState({postText:t})}
         />
 
         <Newsfeed
           id="newsfeed"
+          postText={postText}
           setView={(view, name) => this.setView(view, name)}
           goBack={() => this.goBack()}
           donation={donation}

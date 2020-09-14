@@ -5,11 +5,12 @@ import {
   PanelHeader,
   Button,
   PanelHeaderBack,
-  Div,
 } from '@vkontakte/vkui';
 import type { Donation } from '../types';
 import SnippetDonation from '../components/SnippetDonation/SnippetDonation';
 import { moneyFormat } from '../lib';
+import Post from '../components/Post/Post';
+import CardDivider from '../components/CardDivider/CardDivider';
 
 interface NewsfeedState {
   donationNeedProgress: number;
@@ -21,6 +22,7 @@ export interface NewsfeedProps {
   setView: (view: string, name?: string) => void;
   goBack: () => void;
 
+  postText: string;
   donation?: Donation;
 }
 
@@ -69,40 +71,88 @@ export class Newsfeed extends React.Component<NewsfeedProps, NewsfeedState> {
     });
 
   render(): JSX.Element {
-    const { id, setView, goBack, donation } = this.props;
+    const { id, setView, goBack, donation, postText } = this.props;
     const { donationNeedProgress } = this.state;
     return (
       <View id={id} activePanel="main">
-        <Panel id="main">
-          <PanelHeader left={<PanelHeaderBack onClick={() => goBack()} />}>
-            {donation?.author.name}
+        <Panel id="main" style={{ overflow: 'hidden' }}>
+          <PanelHeader
+            separator={false}
+            left={<PanelHeaderBack onClick={() => goBack()} />}
+          >
+            Новости
           </PanelHeader>
-          {donation && (
-            <SnippetDonation
-              title={donation.title}
-              description={`${donation.author.name}· Закончится через 5 дней`}
-              progress={`Собрано ${moneyFormat(
-                donationNeedProgress,
-              )} ₽ из ${moneyFormat(donation.need)} ₽`}
-              value={(donationNeedProgress * 100) / donation.need}
-              action={
-                <Button mode="outline" onClick={() => setView('viewing')}>
-                  Помочь
-                </Button>
-              }
-              background={
-                <div
-                  style={{
-                    backgroundImage: `url(${donation.image})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    width: '100%',
-                    height: 140,
-                  }}
-                />
-              }
+          <Post
+            author={{ id: 100, name: 'ВКонтакте', photo_100: '' }}
+            date="час назад"
+            likes={65}
+            comments={65}
+            reposts={4}
+            views="7,2К"
+            style={{ marginTop: -100 }}
+          >
+            <div
+              style={{
+                height: 80,
+                width: '100%',
+                backgroundColor: 'var(--placeholder_icon_background)',
+              }}
             />
+          </Post>
+          <CardDivider />
+          {donation && (
+            <Post
+              author={donation.author}
+              date="час назад"
+              likes={65}
+              comments={65}
+              reposts={4}
+              views="7,2К"
+            >
+              {postText}
+              <SnippetDonation
+                title={donation.title}
+                description={`${donation.author.name}· Закончится через 5 дней`}
+                progress={`Собрано ${moneyFormat(
+                  donationNeedProgress,
+                )} ₽ из ${moneyFormat(donation.need)} ₽`}
+                value={(donationNeedProgress * 100) / donation.need}
+                action={
+                  <Button mode="outline" onClick={() => setView('viewing')}>
+                    Помочь
+                  </Button>
+                }
+                background={
+                  <div
+                    style={{
+                      backgroundImage: `url(${donation.image})`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                      width: '100%',
+                      height: 140,
+                    }}
+                  />
+                }
+              />
+            </Post>
           )}
+          <CardDivider />
+          <Post
+            author={{ id: 100, name: 'ВКонтакте', photo_100: '' }}
+            date="час назад"
+            likes={65}
+            comments={65}
+            reposts={4}
+            views="7,2К"
+          >
+            <div
+              style={{
+                height: 500,
+                width: '100%',
+                backgroundColor: 'var(--placeholder_icon_background)',
+              }}
+            />
+          </Post>
         </Panel>
       </View>
     );
