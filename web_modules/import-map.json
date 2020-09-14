@@ -1,0 +1,11 @@
+{
+  "imports": {
+    "@vkontakte/icons": "./@vkontakte/icons.js",
+    "@vkontakte/vk-bridge": "./@vkontakte/vk-bridge.js",
+    "@vkontakte/vk-mini-apps-api": "./@vkontakte/vk-mini-apps-api.js",
+    "@vkontakte/vkui": "./@vkontakte/vkui.js",
+    "@vkontakte/vkui/dist/vkui.css": "./@vkontakte/vkui/dist/vkui.css",
+    "react": "./react.js",
+    "react-dom": "./react-dom.js"
+  }
+}

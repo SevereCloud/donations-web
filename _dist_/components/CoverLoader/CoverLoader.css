@@ -1,0 +1,102 @@
+.CoverLoader {
+    height: 140px;
+    border: 1px dashed var(--accent);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    outline: none;
+    text-decoration: none;
+    margin: 0 auto;
+    padding: 0;
+    cursor: default;
+    width: 100%;
+    background: transparent;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    color: var(--accent);
+}
+
+.CoverLoader--load {
+    border: 0.33px solid rgba(0, 0, 0, 0.08);
+}
+
+.CoverLoader__error {
+    background: var(--field_error_background);
+    border-color: var(--field_error_border);
+}
+
+.CoverLoader__error_text {
+    font-size: 13px;
+    line-height: 16px;
+    margin-top: 8px;
+    color: var(--field_error_border);
+}
+
+.CoverLoader__input {
+    display: none;
+}
+
+.CoverLoader__in {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.CoverLoader--square .CoverLoader__in {
+    flex-direction: column;
+}
+
+.CoverLoader--load .CoverLoader__in {
+    display: none;
+}
+
+.CoverLoader .CoverLoader__content {
+    line-height: 20px;
+    font-size: 17px;
+    padding: 12px 0;
+}
+
+.CoverLoader .CoverLoader__content {
+    line-height: 20px;
+    font-size: 17px;
+    padding: 12px 0;
+}
+
+.CoverLoader--ios:not(.CoverLoader--square) .CoverLoader__before .Icon {
+    margin-right: 8px;
+}
+
+.CoverLoader--android .CoverLoader__content {
+    font-size: 16px;
+    line-height: 20px;
+    padding: 14px 0;
+}
+
+.CoverLoader--android:not(.CoverLoader--square) .CoverLoader__before .Icon {
+    margin-right: 8px;
+}
+
+.CoverLoader__dismiss {
+    width: 28px;
+}
+
+.CoverLoader__dismissIcon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 4;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--icon_tertiary);
+}
+
+.CoverLoader__dismissIcon:active {
+    opacity: .4;
+}

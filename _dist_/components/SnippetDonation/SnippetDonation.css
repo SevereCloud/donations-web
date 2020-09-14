@@ -1,0 +1,102 @@
+.SnippetDonation{
+    margin: 12px 8px 0;
+    overflow: hidden;
+    background: var(--background_suggestions);
+/* Light / Image Border */
+
+    border: 0.5px solid rgba(0, 0, 0, 0.08);
+    box-sizing: border-box;
+    /* Elevation · Snippet */
+
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.04), 0px 2px 4px rgba(0, 0, 0, 0.01);
+    border-radius: 8px;
+}
+
+.SnippetDonation__cell > .SimpleCell {
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+.SnippetDonation__cell .SimpleCell--android .SimpleCell__children {
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 20px;
+
+    letter-spacing: 0.2px;
+}
+
+.SnippetDonation__cell .SimpleCell--ios .SimpleCell__children {
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 20px;
+
+    letter-spacing: -0.24px;
+}
+.SnippetDonation__cell .SimpleCell--android .SimpleCell__description {
+    font-size: 12px;
+    line-height: 14px;
+
+    letter-spacing: 0.2px;
+}
+
+.SnippetDonation__cell .SimpleCell--ios .SimpleCell__description {
+    font-size: 13px;
+    line-height: 16px;
+    /* identical to box height, or 123% */
+
+    letter-spacing: -0.078px;
+    margin-top: 0;
+}
+
+.SnippetDonation__cell .SimpleCell__main {
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.SnippetDonation__cell .SimpleCell--android .SimpleCell__main {
+    padding-bottom: 7px;
+}
+
+
+.SnippetDonation__bottom {
+    display: flex;
+    justify-content: space-between;
+    padding: 3px 12px 4px;
+}
+
+.SnippetDonation__before {
+    padding-bottom: 10px;
+    flex-grow: 1;
+}
+
+.SnippetDonation__progress{
+    padding: 8px 0;
+    font-size: 13px;
+    line-height: 16px;
+    /* identical to box height, or 123% */
+
+    letter-spacing: 0.2px;
+}
+
+.SnippetDonation__action {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    margin-left:12px;
+}
+
+.SnippetBar .SnippetDonation__background,
+.SnippetBar .SnippetDonation__cell,
+.SnippetBar .Separator {
+    display: none;
+}
+
+.SnippetBar .Progress__in {
+    background: #4bb34b;
+}
+
+.SnippetBar {
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+}
