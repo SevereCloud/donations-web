@@ -6,7 +6,6 @@ import bridge from '@vkontakte/vk-bridge';
 
 import './components/CardDivider/CardDivider.css';
 import './components/CoverLoader/CoverLoader.css';
-// import './components/Post/Post.css';
 import './components/PostBar/PostBar.css';
 import './components/SnippetDonation/SnippetDonation.css';
 import './components/ViewState/ViewState.css';
