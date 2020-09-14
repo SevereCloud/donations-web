@@ -121,7 +121,13 @@ export class App extends React.Component<AppProps, AppState> {
 
   render(): JSX.Element {
     const { vkAPI } = this.props;
-    const { activeView, activePanel, donation, userInfo, postText } = this.state;
+    const {
+      activeView,
+      activePanel,
+      donation,
+      userInfo,
+      postText,
+    } = this.state;
 
     return (
       <Root activeView={activeView}>

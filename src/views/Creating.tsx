@@ -252,7 +252,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
       return {
         day: currDate.getDate(),
         month: currDate.getMonth() + 1,
-        year: currDate.getFullYear()
+        year: currDate.getFullYear(),
       };
     }
   };
@@ -291,17 +291,16 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
               title: 'Выбрать',
               mode: 'primary',
               action: () => {
-                this.setState(
-                  (prevState: CreatingState) => {
-                    if (!prevState.date) {
-                      return {
-                        ...prevState,
-                        date: this.getModalDefault(),
-                      };
-                    } else {
-                      return prevState;
-                    }
-                  });
+                this.setState((prevState: CreatingState) => {
+                  if (!prevState.date) {
+                    return {
+                      ...prevState,
+                      date: this.getModalDefault(),
+                    };
+                  } else {
+                    return prevState;
+                  }
+                });
                 this.choseDate();
               },
             },
@@ -323,7 +322,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
                 if (date.month !== 0 && date.day !== 0 && date.year !== 0) {
                   this.setState({ date });
                 }
-                console.log(date)
+                console.log(date);
               }}
             />
           </div>
