@@ -115,9 +115,15 @@ export class AchievementEdit extends React.Component<
               pattern="[0-9]*"
               placeholder="Награда за поддержку"
               value={achievement.min || undefined}
-              onChange={(e) =>
-                this.setAchievement({ min: parseFloat(e.target.value) })
-              }
+              onChange={(e) => {
+                const achievementMin = parseFloat(e.target.value);
+                // prevent passing NaN or negative numbers as donation.need value
+                if (!isNaN(achievementMin) && achievementMin >= 0) {
+                  this.setAchievement({ min: achievementMin });
+                } else {
+                  this.setAchievement({ min: 0 });
+                }
+              }}
             />
           )}
         </FormLayout>
