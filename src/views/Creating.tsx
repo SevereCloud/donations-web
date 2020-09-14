@@ -346,7 +346,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
           <Div style={{ paddingTop: 4 }}>
             <CoverLoader
               error={highlightErrors && !donation.image}
-              errorText="Пожалуйста загрузите обложку"
+              errorText="Пожалуйста, загрузите обложку"
               title="Загрузить обложку"
               before={<Icon28PictureOutline />}
               image={donation.image}
@@ -361,7 +361,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
               top="Название сбора"
               bottom={
                 highlightErrors && !donation.title
-                  ? 'Пожалуйста введите название сбора'
+                  ? 'Пожалуйста, введите название сбора'
                   : ''
               }
               status={
@@ -378,7 +378,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
               top="Сумма, ₽"
               bottom={
                 highlightErrors && !donation.need
-                  ? 'Пожалуйста введите сумму\n(должна быть больше нуля)'
+                  ? 'Пожалуйста, введите сумму\n(должна быть больше нуля)'
                   : ''
               }
               status={
@@ -386,6 +386,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
                   ? 'error'
                   : 'default'
               }
+              type="number"
               placeholder="Сколько нужно собрать?"
               value={donation.need || ''}
               onChange={(e) => {
@@ -402,7 +403,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
               top="Цель"
               bottom={
                 highlightErrors && !donation.target
-                  ? 'Пожалуйста введите цель'
+                  ? 'Пожалуйста, введите цель'
                   : ''
               }
               status={
@@ -418,7 +419,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
               top="Описание"
               bottom={
                 highlightErrors && !donation.description
-                  ? 'Пожалуйста введите описание'
+                  ? 'Пожалуйста, введите описание'
                   : ''
               }
               status={
@@ -501,7 +502,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
                 top="Дата окончания"
                 bottom={
                   highlightErrors && !date
-                    ? 'Пожалуйста выберите дату'
+                    ? 'Пожалуйста, выберите дату'
                     : ''
                 }
                 status={
@@ -559,7 +560,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
           <Div style={{ paddingTop: 4 }}>
             <CoverLoader
               error={highlightErrors && !donation.image}
-              errorText="Пожалуйста загрузите обложку"
+              errorText="Пожалуйста, загрузите обложку"
               title="Загрузить обложку"
               before={<Icon28PictureOutline />}
               image={donation.image}
@@ -574,7 +575,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
               top="Название сбора"
               bottom={
                 highlightErrors && !donation.title
-                  ? 'Пожалуйста введите название сбора'
+                  ? 'Пожалуйста, введите название сбора'
                   : ''
               }
               status={
@@ -590,7 +591,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
               top="Сумма в месяц, ₽"
               bottom={
                 highlightErrors && !donation.need
-                  ? 'Пожалуйста введите сумму\n(должна быть больше нуля)'
+                  ? 'Пожалуйста, введите сумму\n(должна быть больше нуля)'
                   : ''
               }
               status={
@@ -599,6 +600,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
                   : 'default'
               }
               pattern="[0-9]*"
+              type="number"
               placeholder="Сколько нужно в месяц?"
               value={donation.need || ''}
               onChange={
@@ -617,7 +619,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
               top="Цель"
               bottom={
                 highlightErrors && !donation.target
-                  ? 'Пожалуйста введите цель сбора'
+                  ? 'Пожалуйста, введите цель сбора'
                   : ''
               }
               status={
@@ -633,7 +635,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
               top="Описание"
               bottom={
                 highlightErrors && !donation.description
-                  ? 'Пожалуйста введите описание сбора'
+                  ? 'Пожалуйста, введите описание сбора'
                   : ''
               }
               status={

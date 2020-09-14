@@ -7,6 +7,7 @@ import type {
 } from '@vkontakte/vk-bridge';
 import type { VKMiniAppAPI } from '@vkontakte/vk-mini-apps-api';
 
+import './views/Creating.css';
 import './components/SnippetDonation/SnippetDonation.css';
 import './components/CoverLoader/CoverLoader.css';
 import './components/ViewState/ViewState.css';
