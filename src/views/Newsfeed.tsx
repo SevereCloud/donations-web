@@ -38,41 +38,35 @@ export class Newsfeed extends React.Component<NewsfeedProps, NewsfeedState> {
     const { donation } = this.props;
     const donationNeed = donation?.need || 0;
     const progressWeight = donationNeed >= 100 ? 0.02 : 0.04;
-    const animationInterval = setInterval(
-      () => {
-        this.setState(
-          (prevState: NewsfeedState) => {
-            const newDonationNeedProgress = Math.floor(
-              prevState.donationNeedProgress + donationNeed * progressWeight
-            )
-            return ({
-              donationNeedProgress: newDonationNeedProgress > donationNeed
-                ? donationNeed
-                : newDonationNeedProgress
-            });
-          }
-        )
-      },
-      150
-    )
-    this.setAnimationInterval(animationInterval)
+    const animationInterval = setInterval(() => {
+      this.setState((prevState: NewsfeedState) => {
+        const newDonationNeedProgress = Math.floor(
+          prevState.donationNeedProgress + donationNeed * progressWeight,
+        );
+        return {
+          donationNeedProgress:
+            newDonationNeedProgress > donationNeed
+              ? donationNeed
+              : newDonationNeedProgress,
+        };
+      });
+    }, 150);
+    this.setAnimationInterval(animationInterval);
   }
 
   componentDidUpdate() {
     const { donation } = this.props;
     const donationNeed = donation?.need || 0;
-    const {
-      donationNeedProgress,
-      animationInterval,
-    } = this.state;
+    const { donationNeedProgress, animationInterval } = this.state;
     if (donationNeedProgress >= donationNeed && animationInterval) {
       clearInterval(animationInterval);
     }
   }
 
-  setAnimationInterval = (interval: NodeJS.Timeout) => this.setState({
-    animationInterval: interval,
-  });
+  setAnimationInterval = (interval: NodeJS.Timeout) =>
+    this.setState({
+      animationInterval: interval,
+    });
 
   render(): JSX.Element {
     const { id, setView, goBack, donation } = this.props;
@@ -87,11 +81,15 @@ export class Newsfeed extends React.Component<NewsfeedProps, NewsfeedState> {
             <SnippetDonation
               title={donation.title}
               description={`${donation.author.name}· Закончится через 5 дней`}
-              progress={`Собрано ${moneyFormat(donationNeedProgress)} ₽ из ${moneyFormat(
-                donation.need,
-              )} ₽`}
+              progress={`Собрано ${moneyFormat(
+                donationNeedProgress,
+              )} ₽ из ${moneyFormat(donation.need)} ₽`}
               value={(donationNeedProgress * 100) / donation.need}
-              action={<Button mode="outline" onClick={() => setView('viewing')}>Помочь</Button>}
+              action={
+                <Button mode="outline" onClick={() => setView('viewing')}>
+                  Помочь
+                </Button>
+              }
               background={
                 <div
                   style={{

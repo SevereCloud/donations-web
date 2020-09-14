@@ -11,7 +11,7 @@ import './components/SnippetDonation/SnippetDonation.css';
 import './components/CoverLoader/CoverLoader.css';
 import './components/ViewState/ViewState.css';
 
-import type { Donation } from './types';
+import type { Author, Donation } from './types';
 import { Viewing } from './views/Viewing';
 import { Main } from './views/Main';
 import { Creating } from './views/Creating';
@@ -24,6 +24,8 @@ interface AppState {
   history: Array<{ view: string; panel: string }>;
 
   donation?: Donation;
+
+  userInfo?: Author;
 }
 
 export interface AppProps {
@@ -50,6 +52,15 @@ export class App extends React.Component<AppProps, AppState> {
   }
 
   componentDidMount(): void {
+    this.props.vkAPI.getUserInfo().then((user) => {
+      const userInfo: Author = {
+        id: user.id,
+        name: user.first_name + ' ' + user.last_name,
+        photo_100: user.photo_100,
+      };
+      this.setState({ userInfo: userInfo });
+    });
+
     this.props.vkAPI.onUpdateConfig((data: UpdateConfigData) => {
       const schemeAttribute = document.createAttribute('scheme');
       schemeAttribute.value = data.scheme ? data.scheme : 'client_light';
@@ -106,7 +117,8 @@ export class App extends React.Component<AppProps, AppState> {
   }
 
   render(): JSX.Element {
-    const { activeView, activePanel, donation } = this.state;
+    const { vkAPI } = this.props;
+    const { activeView, activePanel, donation, userInfo } = this.state;
 
     return (
       <Root activeView={activeView}>
@@ -116,12 +128,14 @@ export class App extends React.Component<AppProps, AppState> {
           setView={(view, name) => this.setView(view, name)}
         />
         <Creating
+          vkAPI={vkAPI}
           id="creating"
           activePanel={activePanel['creating']}
           setView={(view, name) => this.setView(view, name)}
           setPanel={(name) => this.setPanel(name)}
           goBack={() => this.goBack()}
           updateDonation={(d) => this.updateDonation(d)}
+          userInfo={userInfo}
         />
 
         <Newsfeed
