@@ -29,6 +29,8 @@
 }
 
 .CoverLoader__error_text {
+    font-size: 13px;
+    line-height: 16px;
     margin-top: 8px;
     color: var(--field_error_border);
 }
