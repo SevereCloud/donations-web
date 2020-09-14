@@ -1,7 +1,7 @@
 .SnippetDonation{
     margin: 12px 12px 0 12px;
     overflow: hidden;
-    background: #FFFFFF;
+    background: var(--background_suggestions);
 /* Light / Image Border */
 
     border: 0.5px solid rgba(0, 0, 0, 0.08);
