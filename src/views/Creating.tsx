@@ -387,6 +387,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
                   : 'default'
               }
               type="number"
+              inputMode="numeric"
               placeholder="Сколько нужно собрать?"
               value={donation.need || ''}
               onChange={(e) => {
@@ -600,6 +601,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
                   : 'default'
               }
               pattern="[0-9]*"
+              inputMode="numeric"
               type="number"
               placeholder="Сколько нужно в месяц?"
               value={donation.need || ''}
