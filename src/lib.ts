@@ -52,7 +52,7 @@ const achievementTypes: Record<Achievement['type'], string> = {
 
 export const achievementDescription = (achievement: Achievement): string => {
   if (achievement.type === 'amount') {
-    return moneyFormat(achievement.min) + ' ₽';
+    return `от ${moneyFormat(achievement.min)} ₽`;
   }
 
   return achievementTypes[achievement.type];
