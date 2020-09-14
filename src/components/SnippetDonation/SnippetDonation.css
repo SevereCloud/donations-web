@@ -84,3 +84,19 @@
     align-items: center;
     margin-left:12px;
 }
+
+.SnippetBar .SnippetDonation__background,
+.SnippetBar .SnippetDonation__cell,
+.SnippetBar .Separator {
+    display: none;
+}
+
+.SnippetBar .Progress__in {
+    background: #4bb34b;
+}
+
+.SnippetBar {
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+}
