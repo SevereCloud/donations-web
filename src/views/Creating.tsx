@@ -243,6 +243,20 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
     }
   };
 
+  getModalDefault = (): DateFormat => {
+    const { date } = this.state;
+    if (date) {
+      return date;
+    } else {
+      const currDate = new Date();
+      return {
+        day: currDate.getDate(),
+        month: currDate.getMonth() + 1,
+        year: currDate.getFullYear()
+      };
+    }
+  };
+
   render(): JSX.Element {
     const {
       id,
@@ -268,7 +282,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
         <ModalCard
           id="date"
           onClose={() => {
-            this.setState({ date: undefined });
+            this.setState({ date: this.getModalDefault() });
             this.choseDate();
           }}
           header="Выберите дату"
@@ -277,6 +291,17 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
               title: 'Выбрать',
               mode: 'primary',
               action: () => {
+                this.setState(
+                  (prevState: CreatingState) => {
+                    if (!prevState.date) {
+                      return {
+                        ...prevState,
+                        date: this.getModalDefault(),
+                      };
+                    } else {
+                      return prevState;
+                    }
+                  });
                 this.choseDate();
               },
             },
@@ -286,6 +311,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
             <DatePicker
               top="Дата окончания"
               placeholder="Выберите дату"
+              defaultValue={this.getModalDefault()}
               min={todayDate()}
               max={{ day: 1, month: 1, year: 2037 }}
               dayPlaceholder="День"
@@ -297,6 +323,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
                 if (date.month !== 0 && date.day !== 0 && date.year !== 0) {
                   this.setState({ date });
                 }
+                console.log(date)
               }}
             />
           </div>
