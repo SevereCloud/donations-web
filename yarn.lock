@@ -1493,10 +1493,10 @@
   dependencies:
     eslint-visitor-keys "^1.1.0"
 
-"@vkontakte/icons@1.40.0":
-  version "1.40.0"
-  resolved "https://registry.yarnpkg.com/@vkontakte/icons/-/icons-1.40.0.tgz#e5f4b4e14976d86e8fe4241d32df934a496b44dd"
-  integrity sha512-xl6ka32uaS0Muz1161xrkO8aWibJghYiALOAz9RWGerXOSvqIltiLGxOvS2X0a2bk5YyfMXAAIMmPj8YA9scew==
+"@vkontakte/icons@1.39.1":
+  version "1.39.1"
+  resolved "https://registry.yarnpkg.com/@vkontakte/icons/-/icons-1.39.1.tgz#6bf8faca221b4e138ca9a180d11cc7f886e4cc2d"
+  integrity sha512-iL2VmNd6C+J+jBP+b7jpKJW9Blza2P+WF09qPTrN2GNKcPr4s1rrC1E4vKoRlM+kkemGagJTxiEWbxocs62OQA==
   dependencies:
     es6-object-assign "1.1.0"
     svg-baker-runtime "1.4.6"

@@ -31,7 +31,7 @@
     "typescript": "3.7.5"
   },
   "dependencies": {
-    "@vkontakte/icons": "1.40.0",
+    "@vkontakte/icons": "1.39.1",
     "@vkontakte/vk-bridge": "^2.2.7",
     "@vkontakte/vk-mini-apps-api": "^0.6.5",
     "@vkontakte/vkui": "4.0.0-beta.27",
