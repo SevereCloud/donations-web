@@ -389,8 +389,6 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
                   : ''
               }
               status={highlightErrors && !donation.need ? 'error' : 'default'}
-              type="number"
-              inputMode="numeric"
               placeholder="Сколько нужно собрать?"
               value={donation.need || ''}
               onChange={(e) => {
@@ -584,8 +582,6 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
               }
               status={highlightErrors && !donation.need ? 'error' : 'default'}
               pattern="[0-9]*"
-              inputMode="numeric"
-              type="number"
               placeholder="Сколько нужно в месяц?"
               value={donation.need || ''}
               onChange={(e) => {
