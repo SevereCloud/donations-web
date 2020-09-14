@@ -41,11 +41,16 @@ export class Newsfeed extends React.Component<NewsfeedProps, NewsfeedState> {
     const animationInterval = setInterval(
       () => {
         this.setState(
-          (prevState: NewsfeedState) => ({
-            donationNeedProgress: Math.floor(
+          (prevState: NewsfeedState) => {
+            const newDonationNeedProgress = Math.floor(
               prevState.donationNeedProgress + donationNeed * progressWeight
             )
-          })
+            return ({
+              donationNeedProgress: newDonationNeedProgress > donationNeed
+                ? donationNeed
+                : newDonationNeedProgress
+            });
+          }
         )
       },
       150
