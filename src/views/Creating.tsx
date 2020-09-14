@@ -238,7 +238,12 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
               monthPlaceholder="Месяц"
               yearPlaceholder="Год"
               popupDirection="top"
-              onDateChange={(d) => this.setState({ date: d })}
+              onDateChange={(date) => {
+                // set date only if all parts of date are set
+                if (date.month !== 0 && date.day !== 0 && date.year !== 0) {
+                  this.setState({ date});
+                }
+              }}
             />
           </div>
         </ModalCard>
