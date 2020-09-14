@@ -167,6 +167,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
     switch (panel) {
       case 'target':
         return [
+          donation.image,
           donation.title,
           donation.need,
           donation.target,
@@ -176,6 +177,7 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
         return Boolean(date);
       case 'regular':
         return [
+          donation.image,
           donation.title,
           donation.need,
           donation.target,
@@ -291,6 +293,8 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
           </PanelHeader>
           <Div style={{ paddingTop: 4 }}>
             <CoverLoader
+              error={highlightErrors && !donation.image}
+              errorText="пожалуйста загрузите обложку"
               title="Загрузить обложку"
               before={<Icon28PictureOutline />}
               image={donation.image}
