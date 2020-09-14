@@ -13,15 +13,16 @@ import { moneyFormat } from '../../lib';
 
 interface IStateProgressProps {
   label: string;
-  donationProgress: number;
+  donationProgress?: number;
   donationNeed: number;
 }
 
-const StateProgress: FunctionComponent<IStateProgressProps> = ({
+export const StateProgress: FunctionComponent<IStateProgressProps> = ({
   label,
   donationProgress,
   donationNeed,
 }: IStateProgressProps) => {
+  donationProgress = donationProgress || 0;
   const progress = Math.floor((donationProgress * 100) / donationNeed);
   const formattedNumber = (num: number) => `${moneyFormat(num)} ₽`;
 
@@ -77,6 +78,33 @@ const StateProgress: FunctionComponent<IStateProgressProps> = ({
         </>
       )}
     </Div>
+  );
+};
+
+export const StateProgressWithAnimation: FunctionComponent<IStateProgressProps> = ({
+  label,
+  donationNeed,
+}: IStateProgressProps) => {
+  const [donationProgress, setDonationProgress] = useState(donationNeed);
+  useEffect(() => {
+    if (donationProgress < donationNeed) {
+      setTimeout(
+        () =>
+          setDonationProgress(
+            (prevProgress) => prevProgress + donationNeed * 0.0025,
+          ),
+        70,
+      );
+    } else {
+      setDonationProgress(0);
+    }
+  });
+  return (
+    <StateProgress
+      label={label}
+      donationNeed={donationNeed}
+      donationProgress={donationProgress}
+    />
   );
 };
 
