@@ -21,10 +21,11 @@ export class Main extends React.Component<MainProps> {
     const {} = this.state;
     return (
       <View id={id} activePanel={activePanel}>
-        <Panel id="main">
+        <Panel id="main" style={{ overflow: 'hidden' }}>
           <PanelHeader separator>Пожертвования</PanelHeader>
           {/* TODO: список сборов */}
           <Placeholder
+            style={{ background: 'transparent' }}
             action={
               <Button size="m" onClick={() => setView('creating')}>
                 Создать сбор
