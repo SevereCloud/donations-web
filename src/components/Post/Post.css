@@ -1,0 +1,35 @@
+.Post__actions {
+    display: flex;
+    align-items: center;
+    height: 44px;
+}
+
+.Post__button {
+    align-self: stretch;
+    min-width: 84px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    color: var(--content_placeholder_text)
+}
+
+.Post__button .Icon {
+    margin-left: 16px; 
+    margin-right: 4px;
+    color: var(--content_placeholder_icon)
+}
+
+.Post__views {
+    position: absolute;
+    right: 0;
+    margin-left: auto;
+    min-width: 84px;
+    display: flex;
+    align-items: center;
+    color: var(--content_placeholder_text)
+}
+.Post__views .Icon{
+    margin-left: 16px; 
+    margin-right: 7px;
+    color: var(--snippet_icon_tertiary);
+}

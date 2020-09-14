@@ -4,6 +4,9 @@ import { App } from './App';
 import { VKMiniAppAPI } from '@vkontakte/vk-mini-apps-api';
 import bridge from '@vkontakte/vk-bridge';
 
+import './components/Post/Post.css';
+import './components/CardDivider/CardDivider.css';
+
 const isMobileApps = () => {
   const url = new URL(window.location.href);
   const vkPlatform = url.searchParams.get('vk_platform');
