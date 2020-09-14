@@ -6,6 +6,7 @@ import React, {
   MouseEventHandler,
 } from 'react';
 import {
+  Text,
   getClassName,
   classNames,
   Tappable,
@@ -19,9 +20,9 @@ import { Icon24Cancel, Icon24DismissOverlay } from '@vkontakte/icons';
 
 export interface CoverLoaderProps
   extends InputHTMLAttributes<HTMLInputElement>,
-    HasRef<HTMLInputElement>,
-    HasRootRef<HTMLElement>,
-    HasPlatform {
+  HasRef<HTMLInputElement>,
+  HasRootRef<HTMLElement>,
+  HasPlatform {
   /**
    * Срабатывает при клике на иконку крестика при `asideMode="dismiss"`.
    */
@@ -33,6 +34,8 @@ export interface CoverLoaderProps
   title?: string;
   before?: ReactNode;
   image?: string;
+  error?: boolean;
+  errorText?: string;
 }
 
 export interface CoverLoaderState {
@@ -87,48 +90,56 @@ class CoverLoader extends Component<CoverLoaderProps, CoverLoaderState> {
       onChange,
       onDismiss,
       onLoadImage,
+      error,
+      errorText,
       ...restProps
     } = this.props;
     const { value } = this.state;
 
     return (
-      <Tappable
-        disabled={!!value}
-        className={classNames(
-          className,
-          getClassName('CoverLoader', platform),
-          {
-            'CoverLoader--load': !!value,
-          },
-        )}
-        style={{ ...style, backgroundImage: `url(${value})` }}
-        getRootRef={getRootRef}
-        Component="label"
-      >
-        <input
+      <>
+        <Tappable
           disabled={!!value}
-          {...restProps}
-          className="CoverLoader__input"
-          type="file"
-          accept="image/*"
-          ref={getRef}
-          onChange={this.change}
-        />
-        <div className="CoverLoader__in">
-          {before && <div className="CoverLoader__before">{before}</div>}
-          <div className="CoverLoader__content">{title}</div>
-        </div>
-
-        {!!value && (
-          <div className="CoverLoader__dismiss">
-            <div className="CoverLoader__dismissIcon" onClick={this.dismiss}>
-              {/*  */}
-              {platform === ANDROID && <Icon24Cancel />}
-              {platform === IOS && <Icon24DismissOverlay />}
-            </div>
+          className={classNames(
+            className,
+            getClassName('CoverLoader', platform),
+            {
+              'CoverLoader--load': !!value,
+            },
+            error ? 'CoverLoader__error' : '',
+          )}
+          style={{ ...style, backgroundImage: `url(${value})` }}
+          getRootRef={getRootRef}
+          Component="label"
+        >
+          <input
+            disabled={!!value}
+            {...restProps}
+            className="CoverLoader__input"
+            type="file"
+            accept="image/*"
+            ref={getRef}
+            onChange={this.change}
+          />
+          <div className="CoverLoader__in">
+            {before && <div className="CoverLoader__before">{before}</div>}
+            <div className="CoverLoader__content">{title}</div>
           </div>
+
+          {!!value && (
+            <div className="CoverLoader__dismiss">
+              <div className="CoverLoader__dismissIcon" onClick={this.dismiss}>
+                {/*  */}
+                {platform === ANDROID && <Icon24Cancel />}
+                {platform === IOS && <Icon24DismissOverlay />}
+              </div>
+            </div>
+          )}
+        </Tappable>
+        {error && (
+          <Text weight="regular" className="CoverLoader__error_text">{errorText}</Text>
         )}
-      </Tappable>
+      </>
     );
   }
 }

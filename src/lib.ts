@@ -35,5 +35,10 @@ const months = [
 ];
 
 export const dateFormat = (date: DateFormat): string => {
-  return `${date.day} ${months[date.month - 1]} ${date.year}`;
+  // DatePicker may return incorrect values
+  if (date.month == 0 || date.day == 0 || date.year == 0) {
+    return ''
+  } else {
+    return `${date.day} ${months[date.month - 1]} ${date.year}`;
+  }
 };
