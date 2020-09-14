@@ -32,6 +32,7 @@ import {
 import CoverLoader from '../components/CoverLoader/CoverLoader';
 import SnippetDonation from '../components/SnippetDonation/SnippetDonation';
 import { todayDate, dateFormat } from '../lib';
+import type { VKMiniAppAPI } from '@vkontakte/vk-mini-apps-api';
 
 const defaultAuthors: Author[] = [
   {
@@ -76,6 +77,8 @@ type DonationEnd = 'date' | 'amount';
 interface CreatingState {
   activeModal: string | null;
 
+  groups: Author[];
+
   date?: DateFormat;
   donationEnd: DonationEnd;
 
@@ -85,11 +88,15 @@ interface CreatingState {
 }
 
 export interface CreatingProps {
+  vkAPI: VKMiniAppAPI;
+
   id: string;
   activePanel: string;
   setView: (view: string, name?: string) => void;
   setPanel: (name: string) => void;
   goBack: () => void;
+
+  userInfo?: Author;
 
   // Нужно чтобы реализовать редактирование
   donation?: Donation;
@@ -105,6 +112,8 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
     this.state = {
       activeModal: null,
 
+      groups: [],
+
       donationEnd: 'date',
 
       donation: props.donation || defaultDonationRegular,
@@ -118,24 +127,58 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
     this.choseDonationEnd = this.choseDonationEnd.bind(this);
   }
 
+  componentDidMount() {
+    const { vkAPI } = this.props;
+    console.log(vkAPI);
+
+    vkAPI
+      .getAccessToken(7595761, 'groups')
+      .then((v) => {
+        vkAPI
+          .callAPIMethod('groups.get', {
+            filter: 'editor',
+            extended: 1,
+            v: '5.122',
+            access_token: v.accessToken,
+          })
+          .then((e: { items: Author[] }) => {
+            this.setState({ groups: e.items });
+          })
+          .catch((e) => console.error(e));
+      })
+      .catch((e) => console.error(e));
+  }
+
   choseAuthor(user: Author): void {
     this.setDonation({ author: user });
     this.props.goBack();
   }
 
   get authors(): Author[] {
-    // TODO: необходимо подгружать реальных
-    return defaultAuthors;
+    if (!this.props.userInfo) {
+      return defaultAuthors;
+    }
+
+    return [this.props.userInfo, ...this.state.groups];
   }
 
   create(type: Donation['type']) {
     switch (type) {
       case 'target':
-        this.setState({ donation: defaultDonationTarget });
+        const dt = { ...defaultDonationTarget };
+        if (this.props.userInfo) {
+          dt.author = this.props.userInfo;
+        }
+
+        this.setState({ donation: dt });
         this.props.setPanel('target');
         break;
       case 'regular':
-        this.setState({ donation: defaultDonationRegular });
+        const dr = { ...defaultDonationRegular };
+        if (this.props.userInfo) {
+          dr.author = this.props.userInfo;
+        }
+        this.setState({ donation: dr });
         this.props.setPanel('regular');
         break;
     }
@@ -345,17 +388,15 @@ export class Creating extends React.Component<CreatingProps, CreatingState> {
               }
               placeholder="Сколько нужно собрать?"
               value={donation.need || ''}
-              onChange={
-                (e) => {
-                  const donationNeed = parseFloat(e.target.value);
-                  // prevent passing NaN or negative numbers as donation.need value
-                  if (!isNaN(donationNeed) && donationNeed >= 0) {
-                    this.setDonation({ need: donationNeed });
-                  } else {
-                    this.setDonation({ need: 0 });
-                  }
+              onChange={(e) => {
+                const donationNeed = parseFloat(e.target.value);
+                // prevent passing NaN or negative numbers as donation.need value
+                if (!isNaN(donationNeed) && donationNeed >= 0) {
+                  this.setDonation({ need: donationNeed });
+                } else {
+                  this.setDonation({ need: 0 });
                 }
-              }
+              }}
             />
             <Input
               top="Цель"

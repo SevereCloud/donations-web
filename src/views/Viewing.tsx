@@ -27,7 +27,7 @@ export class Viewing extends React.Component<ViewingProps> {
 
   render(): JSX.Element {
     const { id, donation } = this.props;
-    const { } = this.state;
+    const {} = this.state;
     return (
       <View id={id} activePanel="main">
         <Panel id="main">
