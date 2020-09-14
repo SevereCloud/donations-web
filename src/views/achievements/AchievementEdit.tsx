@@ -138,7 +138,7 @@ export class AchievementEdit extends React.Component<
               stretched
               onClick={() => update(achievement)}
             >
-              Создать награду
+              {this.props.achievement?'Сохранить награду':'Создать награду'}
             </Button>
           </Div>
         </FixedLayout>
